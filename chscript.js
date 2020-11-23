@@ -260,85 +260,66 @@ let observer = new MutationObserver((mutations) => {
         addressWrapper.style.position = "relative";
       }
       if (addressWrapper && !document.getElementById("copy-address-btn")) {
-        const copyAddress = () => {
-          navigator.clipboard.readText().then((text) => {
-            let address = null;
-            try {
-              address = JSON.parse(text);
-            } catch (e) {
-              // alert(e); // error in the above string (in this case, yes)!
-            }
-            console.log(address);
-            if (address) {
-              let nameParts = [];
-              const firstName = document.getElementById(
-                "checkout_shipping_address_first_name"
-              );
-              const lastName = document.getElementById(
-                "checkout_shipping_address_last_name"
-              );
-              const address1 = document.getElementById(
-                "checkout_shipping_address_address1"
-              );
-              const address2 = document.getElementById(
-                "checkout_shipping_address_address2"
-              );
-              const zip = document.getElementById(
-                "checkout_shipping_address_zip"
-              );
-              const city = document.getElementById(
-                "checkout_shipping_address_city"
-              );
-              const province = document.getElementById(
-                "checkout_shipping_address_province"
-              );
-              const country = document.getElementById(
-                "checkout_shipping_address_country"
-              );
-              if (country) {
-                console.log("may country");
-                country.addEventListener("change", () => {
-                  console.log("changed");
-                  if (firstName && address.name) {
-                    nameParts = address.name.split(" ");
-                    firstName.value = nameParts[0] ? nameParts[0] : "";
-                  }
-                  if (lastName && address.name) {
-                    lastName.value = nameParts[1] ? nameParts[1] : "";
-                  }
-                  if (address1 && address.firstLine) {
-                    address1.value = address.firstLine;
-                  }
-                  if (address2 && address.address2) {
-                    address2.value = address.address2;
-                  }
-                  if (zip && address.zip) {
-                    zip.value = address.zip;
-                  }
-                  if (city && address.city) {
-                    city.value = address.city;
-                  }
-                  if (province && address.state) {
-                    setTimeout(() => {
-                      province.value = address.state;
-                    }, 1500);
-                  }
-                });
-                // country.value = countryCodeMap[address.countryName];
-                // if ("createEvent" in document) {
-                //   var evt = document.createEvent("HTMLEvents");
-                //   evt.initEvent("change", true, true);
-                //   country.dispatchEvent(evt);
-                // } else {
-                //   country.fireEvent("onchange");
-                // }
-                // country.dispatchEvent(new Event("change"));
+        let nameParts = [];
+        const firstName = document.getElementById(
+          "checkout_shipping_address_first_name"
+        );
+        const lastName = document.getElementById(
+          "checkout_shipping_address_last_name"
+        );
+        const address1 = document.getElementById(
+          "checkout_shipping_address_address1"
+        );
+        const address2 = document.getElementById(
+          "checkout_shipping_address_address2"
+        );
+        const zip = document.getElementById("checkout_shipping_address_zip");
+        const city = document.getElementById("checkout_shipping_address_city");
+        const province = document.getElementById(
+          "checkout_shipping_address_province"
+        );
+        const country = document.getElementById(
+          "checkout_shipping_address_country"
+        );
+        if (country) {
+          country.addEventListener("change", () => {
+            navigator.clipboard.readText().then((text) => {
+              let address = null;
+              try {
+                address = JSON.parse(text);
+              } catch (e) {
+                // alert(e); // error in the above string (in this case, yes)!
               }
-            }
+              if (address) {
+                if (firstName && address.name) {
+                  nameParts = address.name.split(" ");
+                  firstName.value = nameParts[0] ? nameParts[0] : "";
+                }
+                if (lastName && address.name) {
+                  lastName.value = nameParts[1] ? nameParts[1] : "";
+                }
+                if (address1 && address.firstLine) {
+                  address1.value = address.firstLine;
+                }
+                if (address2 && address.address2) {
+                  address2.value = address.address2;
+                }
+                if (zip && address.zip) {
+                  zip.value = address.zip;
+                }
+                if (city && address.city) {
+                  city.value = address.city;
+                }
+                if (province && address.state) {
+                  setTimeout(() => {
+                    province.value = address.state;
+                  }, 1500);
+                }
+              }
+            });
           });
-          return false;
-        };
-        copyAddressBtn.addEventListener("click", copyAddress);
+        }
+        // copyAddressBtn.addEventListener("click", copyAddress);
         addressWrapper.appendChild(copyAddressBtn);
       }
     }
