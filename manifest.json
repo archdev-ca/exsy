@@ -36,7 +36,7 @@
       "js": ["chscript.js"]
     }
   ],
-  "web_accessible_resources": ["images/copy.svg"],
+  "web_accessible_resources": ["images/copy.svg", "images/paste.svg"],
   "icons": {
     "16": "images/get_started16.png",
     "32": "images/get_started32.png",

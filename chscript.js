@@ -1,7 +1,7 @@
 const copyAddressBtn = document.createElement("span");
 const copyAddressIcon = document.createElement("img");
 copyAddressBtn.id = "copy-address-btn";
-copyAddressIcon.src = chrome.extension.getURL("images/copy.svg");
+copyAddressIcon.src = chrome.extension.getURL("images/paste.svg");
 copyAddressBtn.appendChild(copyAddressIcon);
 
 const countryCodeMap = {
@@ -256,70 +256,74 @@ let observer = new MutationObserver((mutations) => {
       const addressWrapper = document.querySelector(
         "form.edit_checkout .address-fields"
       );
-      if (addressWrapper) {
-        addressWrapper.style.position = "relative";
-      }
       if (addressWrapper && !document.getElementById("copy-address-btn")) {
-        let nameParts = [];
-        const firstName = document.getElementById(
-          "checkout_shipping_address_first_name"
-        );
-        const lastName = document.getElementById(
-          "checkout_shipping_address_last_name"
-        );
-        const address1 = document.getElementById(
-          "checkout_shipping_address_address1"
-        );
-        const address2 = document.getElementById(
-          "checkout_shipping_address_address2"
-        );
-        const zip = document.getElementById("checkout_shipping_address_zip");
-        const city = document.getElementById("checkout_shipping_address_city");
-        const province = document.getElementById(
-          "checkout_shipping_address_province"
-        );
+        addressWrapper.style.position = "relative";
+
         const country = document.getElementById(
           "checkout_shipping_address_country"
         );
-        if (country) {
-          country.addEventListener("change", () => {
-            navigator.clipboard.readText().then((text) => {
-              let address = null;
-              try {
-                address = JSON.parse(text);
-              } catch (e) {
-                // alert(e); // error in the above string (in this case, yes)!
+
+        const autoFillShippingAddress = () => {
+          let nameParts = [];
+          const firstName = document.getElementById(
+            "checkout_shipping_address_first_name"
+          );
+          const lastName = document.getElementById(
+            "checkout_shipping_address_last_name"
+          );
+          const address1 = document.getElementById(
+            "checkout_shipping_address_address1"
+          );
+          const address2 = document.getElementById(
+            "checkout_shipping_address_address2"
+          );
+          const zip = document.getElementById("checkout_shipping_address_zip");
+          const city = document.getElementById(
+            "checkout_shipping_address_city"
+          );
+          const province = document.getElementById(
+            "checkout_shipping_address_province"
+          );
+          navigator.clipboard.readText().then((text) => {
+            let address = null;
+            try {
+              address = JSON.parse(text);
+            } catch (e) {
+              // alert(e); // error in the above string (in this case, yes)!
+            }
+            if (address) {
+              if (firstName && address.name) {
+                nameParts = address.name.split(" ");
+                firstName.value = nameParts[0] ? nameParts[0] : "";
               }
-              if (address) {
-                if (firstName && address.name) {
-                  nameParts = address.name.split(" ");
-                  firstName.value = nameParts[0] ? nameParts[0] : "";
-                }
-                if (lastName && address.name) {
-                  lastName.value = nameParts[1] ? nameParts[1] : "";
-                }
-                if (address1 && address.firstLine) {
-                  address1.value = address.firstLine;
-                }
-                if (address2 && address.address2) {
-                  address2.value = address.address2;
-                }
-                if (zip && address.zip) {
-                  zip.value = address.zip;
-                }
-                if (city && address.city) {
-                  city.value = address.city;
-                }
-                if (province && address.state) {
-                  setTimeout(() => {
-                    province.value = address.state;
-                  }, 1500);
-                }
+              if (lastName && address.name) {
+                lastName.value = nameParts[1] ? nameParts[1] : "";
               }
-            });
+              if (address1 && address.firstLine) {
+                address1.value = address.firstLine;
+              }
+              if (address2 && address.address2) {
+                address2.value = address.address2;
+              }
+              if (zip && address.zip) {
+                zip.value = address.zip;
+              }
+              if (city && address.city) {
+                city.value = address.city;
+              }
+              if (province && address.state) {
+                setTimeout(() => {
+                  province.value = address.state;
+                }, 500);
+              }
+            }
           });
+        };
+
+        if (country) {
+          country.addEventListener("change", autoFillShippingAddress);
         }
-        // copyAddressBtn.addEventListener("click", copyAddress);
+        copyAddressBtn.addEventListener("click", autoFillShippingAddress);
         addressWrapper.appendChild(copyAddressBtn);
       }
     }

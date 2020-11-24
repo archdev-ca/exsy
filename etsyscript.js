@@ -8,7 +8,7 @@ if (!document.getElementById("exsy-clipboard-input")) {
   document.body.appendChild(clipBoardInput);
 }
 
-const copyAddressBtn = document.createElement("button");
+const copyAddressBtn = document.createElement("span");
 const copyAddressIcon = document.createElement("img");
 copyAddressBtn.id = "copy-address-btn";
 copyAddressIcon.src = chrome.extension.getURL("images/copy.svg");
