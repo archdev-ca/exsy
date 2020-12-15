@@ -30,7 +30,7 @@
       "js": ["etsyscript.js"]
     },
     {
-      "matches": ["https://www.customhappy.com/*"],
+      "matches": ["https://www.customhappy.com/*","https://printedmint.com/*"],
       "css": ["content.css"],
       "run_at": "document_idle",
       "js": ["chscript.js"]

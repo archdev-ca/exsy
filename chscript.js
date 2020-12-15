@@ -302,8 +302,8 @@ let observer = new MutationObserver((mutations) => {
               if (address1 && address.firstLine) {
                 address1.value = address.firstLine;
               }
-              if (address2 && address.address2) {
-                address2.value = address.address2;
+              if (address2 && address.secondLine) {
+                address2.value = address.secondLine;
               }
               if (zip && address.zip) {
                 zip.value = address.zip;

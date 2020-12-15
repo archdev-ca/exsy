@@ -29,6 +29,9 @@ let observer = new MutationObserver((mutations) => {
         const copyAddress = () => {
           const name = addressWrapper.getElementsByClassName("name");
           const firstLine = addressWrapper.getElementsByClassName("first-line");
+          const secondLine = addressWrapper.getElementsByClassName(
+            "second-line"
+          );
           const city = addressWrapper.getElementsByClassName("city");
           const state = addressWrapper.getElementsByClassName("state");
           const zip = addressWrapper.getElementsByClassName("zip");
@@ -38,6 +41,8 @@ let observer = new MutationObserver((mutations) => {
           const addressJSONString = JSON.stringify({
             name: name ? name[0].textContent : null,
             firstLine: firstLine ? firstLine[0].textContent : null,
+            secondLine:
+              secondLine && secondLine[0] ? secondLine[0].textContent : null,
             city: city ? city[0].textContent : null,
             state: state ? state[0].textContent : null,
             zip: zip ? zip[0].textContent : null,
