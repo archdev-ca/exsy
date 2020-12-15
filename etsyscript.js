@@ -56,6 +56,37 @@ let observer = new MutationObserver((mutations) => {
         copyAddressBtn.addEventListener("click", copyAddress);
         addressWrapper.appendChild(copyAddressBtn);
       }
+
+      // Highlight quantity
+      const container = document.querySelector("#order-detail-container");
+      if (container) {
+        const tableContainer = container.lastChild;
+        const table = tableContainer.querySelector(".panel > table");
+        if (table) {
+          const rows = table.querySelectorAll("tbody > tr");
+          if (rows && rows.length > 1) {
+            for (let i = 1, len = rows.length; i < len; i++) {
+              const row = rows[i];
+              const cells = row.childNodes;
+              if (cells[1]) {
+                const quantity = Number(cells[1].innerText);
+                if (quantity > 1) {
+                  const childNodes = cells[1].childNodes;
+                  if (childNodes[0]) {
+                    childNodes[0].style.display = "inline-block";
+                    childNodes[0].style.color = "#fff";
+                    childNodes[0].style.fontSize = "16px";
+                    childNodes[0].style.fontWeight = "700";
+                    childNodes[0].style.backgroundColor = "#f00";
+                    childNodes[0].style.padding = "2px 10px";
+                    childNodes[0].style.borderRadius = "2px";
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 });
