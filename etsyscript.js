@@ -29,6 +29,9 @@ let observer = new MutationObserver((mutations) => {
         const copyAddress = () => {
           const name = addressWrapper.getElementsByClassName("name");
           const firstLine = addressWrapper.getElementsByClassName("first-line");
+          const secondLine = addressWrapper.getElementsByClassName(
+            "second-line"
+          );
           const city = addressWrapper.getElementsByClassName("city");
           const state = addressWrapper.getElementsByClassName("state");
           const zip = addressWrapper.getElementsByClassName("zip");
@@ -38,6 +41,8 @@ let observer = new MutationObserver((mutations) => {
           const addressJSONString = JSON.stringify({
             name: name ? name[0].textContent : null,
             firstLine: firstLine ? firstLine[0].textContent : null,
+            secondLine:
+              secondLine && secondLine[0] ? secondLine[0].textContent : null,
             city: city ? city[0].textContent : null,
             state: state ? state[0].textContent : null,
             zip: zip ? zip[0].textContent : null,
@@ -50,6 +55,37 @@ let observer = new MutationObserver((mutations) => {
         };
         copyAddressBtn.addEventListener("click", copyAddress);
         addressWrapper.appendChild(copyAddressBtn);
+      }
+
+      // Highlight quantity
+      const container = document.querySelector("#order-detail-container");
+      if (container) {
+        const tableContainer = container.lastChild;
+        const table = tableContainer.querySelector(".panel > table");
+        if (table) {
+          const rows = table.querySelectorAll("tbody > tr");
+          if (rows && rows.length > 1) {
+            for (let i = 1, len = rows.length; i < len; i++) {
+              const row = rows[i];
+              const cells = row.childNodes;
+              if (cells[1]) {
+                const quantity = Number(cells[1].innerText);
+                if (quantity > 1) {
+                  const childNodes = cells[1].childNodes;
+                  if (childNodes[0]) {
+                    childNodes[0].style.display = "inline-block";
+                    childNodes[0].style.color = "#fff";
+                    childNodes[0].style.fontSize = "16px";
+                    childNodes[0].style.fontWeight = "700";
+                    childNodes[0].style.backgroundColor = "#f00";
+                    childNodes[0].style.padding = "2px 10px";
+                    childNodes[0].style.borderRadius = "2px";
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
